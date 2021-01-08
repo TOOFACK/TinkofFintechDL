@@ -1,4 +1,5 @@
 from random import randint
+import pickle as pk
 
 
 class Main(object):
@@ -7,16 +8,60 @@ class Main(object):
 
     def __init__(self, points):
         self.points = points
+        self.field = [[(int)((i * 3 + i / 3 + j) % (9) + 1) for j in range(9)] for i in range(9)]
+
+    def transpon(self):
+        matrix = list(self.field)
+        temp_list = []
+        for j in range(9):
+            for i in range(9):
+                temp_list.append(self.field[i][j])
+            matrix[j] = list(temp_list)
+            temp_list.clear()
+        self.field = matrix.copy()
+
+    def swap_row(self):
+        index1 = randint(0, 8)
+        index2 = randint(0, 8)
+        if index2 == index1:
+            while index2 != index1:
+                index1 = randint(0, 8)
+                index2 = randint(0, 8)
+        temp_list = self.field[index1]
+        self.field[index1] = self.field[index2]
+        self.field[index2] = temp_list
+
+    def swap_col(self):
+        self.transpon()
+        self.swap_row()
+        self.transpon()
+
+    def create_field_utils(self):
+        self.swap_row()
+        self.swap_col()
 
     def create_field(self):
-        amount_of_points = self.points
-        while amount_of_points > 0:
-            point = randint(1, 9)
+
+        temp = randint(1, 25)
+        for j in range(temp):
+            self.create_field_utils()
+        temp_matrix = [[0 for x in range(9)] for y in range(9)]
+        k = 0
+        while k < self.points:
+            k += 1
             i = randint(0, 8)
             j = randint(0, 8)
-            self.field[i][j] = point
-            amount_of_points = amount_of_points-1
+            if temp_matrix[i][j] != 0:
+                while True:
+                    i = randint(0, 8)
+                    j = randint(0, 8)
+                    if temp_matrix[i][j] == 0:
+                        break
 
+            temp_matrix[i][j] = self.field[i][j]
+        else:
+            temp_matrix[i][j] = self.field[i][j]
+        self.field = list(temp_matrix)
 
     def print_field(self):
         for row in self.field:
@@ -68,6 +113,7 @@ class Main(object):
 play = Main(int(input()))
 play.create_field()
 play.print_field()
+
 while True:
     row = int(input())
     col = int(input())
