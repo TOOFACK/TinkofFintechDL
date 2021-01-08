@@ -45,7 +45,7 @@ class Main(object):
         temp = randint(1, 25)
         for j in range(temp):
             self.create_field_utils()
-        temp_matrix = [[0 for x in range(9)] for y in range(9)]
+        temp_matrix = [[0 for _ in range(9)] for _ in range(9)]
         k = 0
         while k < self.points:
             k += 1
@@ -64,8 +64,8 @@ class Main(object):
         self.field = list(temp_matrix)
 
     def print_field(self):
-        for row in self.field:
-            for elem in row:
+        for _row in self.field:
+            for elem in _row:
                 if elem == 0:
                     print(" ", end='|')
                 else:
@@ -75,35 +75,35 @@ class Main(object):
                 print("_", end="")
             print()
 
-    def update_field(self, row, col, point):
+    def update_field(self, _row, _col, _point):
         found = False
-        if self.field[row - 1][col - 1] != 0:
+        if self.field[_row - 1][_col - 1] != 0:
             print("This cell isnt empty, change position")
         else:
 
-            if point not in self.field[row - 1]:
-                for _row in self.field:
-                    if _row[col - 1] == point:
+            if point not in self.field[_row - 1]:
+
+                for _1row in self.field:
+                    if _1row[_col - 1] == point:
+                        print("1")
                         found = True
                         break
-                    else:
-                        self.field[row - 1][col - 1] = point
-
             else:
                 found = True
 
             if found:
                 print("this value is already in the col or row, change it")
             else:
+                self.field[_row - 1][_col - 1] = point
                 self.print_field()
 
     def check_win(self):
-        tr = True
-        for row in self.field:
-            for elem in row:
+        _tr = True
+        for _row in self.field:
+            for elem in _row:
                 if elem == 0:
-                    tr = False
-        if tr:
+                    _tr = False
+        if _tr:
             print("Win!")
             return 1
         else:
@@ -113,8 +113,12 @@ class Main(object):
 play = Main(int(input()))
 play.create_field()
 play.print_field()
-
-while True:
+tr = False
+if play.check_win() == 1:
+    tr = True
+else:
+    tr = False
+while True and not tr:
     row = int(input())
     col = int(input())
     point = int(input())
