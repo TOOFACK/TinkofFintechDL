@@ -1,3 +1,4 @@
+import os
 from random import randint
 import pickle as pk
 
@@ -109,22 +110,86 @@ class Main(object):
         else:
             return 0
 
+    def save(self):
+        f = open('input.txt', 'wb')
+        pk.dump(self, f)
+        f.close()
 
-play = Main(int(input()))
-play.create_field()
-play.print_field()
-tr = False
-if play.check_win() == 1:
-    tr = True
+was_saved = True
+try:
+    file = open('input.txt', 'rb')
+except IOError as e:
+    print("Starting a new game...")
+    was_saved = False
 else:
+    with file:
+        print("Open saved game...")
+        play = pk.load(file)
+        play.print_field()
+        tr = False
+        print("If you want ot leave input -1 -1 -1")
+        if play.check_win() == 1:
+            tr = True
+        else:
+            tr = False
+        while True and not tr:
+            row = int(input())
+            col = int(input())
+            point = int(input())
+            if row == -1 and col == -1 and point == -1:
+                print("Saving...")
+                play.save()
+                break
+
+            while 10 < row or row < 0 or 10 < col or col < 0 or 9 < point or point < 0:
+                print("check your input its wrong")
+                row = int(input())
+                col = int(input())
+                point = int(input())
+
+            play.update_field(row, col, point)
+
+            if play.check_win() == 1:
+                os.remove('input.txt')
+                break
+            else:
+                continue
+if not was_saved:
+    p = int(input())
+    while 80 < p  or p < 0:
+        print("change start amount of points")
+        p = int(input())
+    play = Main(p)
+    play.create_field()
+    play.print_field()
     tr = False
-while True and not tr:
-    row = int(input())
-    col = int(input())
-    point = int(input())
-    play.update_field(row, col, point)
-    print()
+    print("If you want ot leave input -1 -1 -1")
     if play.check_win() == 1:
-        break
+        tr = True
     else:
-        continue
+        tr = False
+    while True and not tr:
+        row = int(input())
+        col = int(input())
+        point = int(input())
+        if row == -1 and col == -1 and point == -1:
+            print("Saving...")
+            play.save()
+            break
+
+        while 10 < row or row < 0 or 10 < col or col < 0 or 9 < point or point < 0:
+            print("check your input its wrong")
+            row = int(input())
+            col = int(input())
+            point = int(input())
+
+        play.update_field(row, col, point)
+
+        if play.check_win() == 1:
+            break
+        else:
+            continue
+
+
+
+
