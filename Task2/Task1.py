@@ -115,6 +115,7 @@ class Main(object):
         pk.dump(self, f)
         f.close()
 
+
 was_saved = True
 try:
     file = open('input.txt', 'rb')
@@ -156,7 +157,7 @@ else:
                 continue
 if not was_saved:
     p = int(input())
-    while 80 < p  or p < 0:
+    while 80 < p or p < 0:
         print("change start amount of points")
         p = int(input())
     play = Main(p)
@@ -189,7 +190,3 @@ if not was_saved:
             break
         else:
             continue
-
-
-
-
