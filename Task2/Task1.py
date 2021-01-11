@@ -187,6 +187,7 @@ if not was_saved:
         play.update_field(row, col, point)
 
         if play.check_win() == 1:
+            os.remove('input.txt')
             break
         else:
             continue
