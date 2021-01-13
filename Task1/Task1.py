@@ -22,7 +22,6 @@ for i in range(len(price) - 1):
     if price[i] < price[i + 1] and val >= price[i]:
         k = i
         index = i
-        date_of_buy = date[i]
         while k < len(price) - 1:
             if price[k] < price[k + 1]:
                 income = price[k + 1] - price[i]
@@ -32,9 +31,11 @@ for i in range(len(price) - 1):
                 break
         if income > max:
             max = income
+            backpack = price[index:i + 1]
+            date_of_buy = date[index]
             date_of_selling = date[i]
-            backpack = price[index:i+1]
-        income = 0
+    income = 0
+
 print(date_of_buy)
 print(date_of_selling)
 print(backpack)
