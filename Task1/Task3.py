@@ -17,6 +17,7 @@ def DP_utils(k, prices):
     for t in range(1, len(prices)):
         cur_profit = prices[t] - prices[t - 1]
         for j in range(1, k + 1):
+
             max2[j][t] = max(max1[j - 1][t - 1] + max(cur_profit, 0), max2[j][t - 1] + cur_profit)
 
             max1[j][t] = max(max1[j][t - 1], max2[j][t])
@@ -32,4 +33,5 @@ date = df['date'].values
 temp = int(input())
 
 val = int(input())
-print(DP_utils(2, price))
+k = int(input())  # транзакции
+print(DP_utils(k, price))

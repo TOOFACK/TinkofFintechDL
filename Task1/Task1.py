@@ -18,7 +18,8 @@ max = 0
 income = 0
 index = 0
 k = 0
-for i in range(len(price) - 1):
+i = 0
+while i < len(price)-1:
     if price[i] < price[i + 1] and val >= price[i]:
         k = i
         index = i
@@ -35,6 +36,7 @@ for i in range(len(price) - 1):
             date_of_buy = date[index]
             date_of_selling = date[i]
     income = 0
+    i+=1
 
 print(date_of_buy)
 print(date_of_selling)
